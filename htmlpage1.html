@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="JavaScript1.js"></script>
+</head>
+<body>
+    <button type="button" onclick="Start()">Start</button><br />
+    <button type="button" onclick="Stop()">Stop</button><br />
+    <button type="button" onclick="Clear()">Clear</button><br />
+
+    <input type="text" id="url">
+    <button type="button" onclick="SearchTable()">Search Table!</button><br />
+    <p id="title"></p>
+    
+    <button type="button" onclick="Refresh()">Refresh</button><br />
+    <table border="1" style="width:1000px">
+        <tr>
+            <td>Available Memory</td>
+            <td>CPU Usage</td>
+            <td># of records in Cloud Queue</td>
+            <td># of records in Cloud Table</td>
+            <td># of links crawled</td>
+        </tr>
+        <tr>
+            <td id="one"></td>
+            <td id="two"></td>
+            <td id="three"></td>
+            <td id="four"></td>
+            <td id="five"></td>
+        </tr>
+    </table>
+
+
+    <script type="text/javascript">
+        function SearchTable() {
+            var input = $('#url').val();
+            alert(input);
+            $.ajax({
+                type: "POST",
+                url: "WebService1.asmx/SearchTable",
+                data: '{url: "' + input + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                success: function (msg) {
+                    $('#title').html(msg.d);
+                },
+                error: function (msg) {
+
+                }
+            });
+        }
+
+        function Refresh() {
+            $.ajax({
+                type: "POST",
+                url: "WebService1.asmx/Refresh",
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                success: function (msg) {
+                    GetAvailableMemory();
+                    GetCPU();
+                    GetQueueSize();
+                    GetTableSize();
+                    GetTotalUrlCrawled();
+                },
+                error: function(msg) {
+                    
+                }
+            });
+        }
+
+        function GetAvailableMemory() {
+            $.ajax({
+                type: "POST",
+                url: "WebService1.asmx/GetAvailableMemory",
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                success: function (msg) {
+                    
+                    $('#one').html(msg.d);
+                },
+                error: function (msg) {
+                    console.log("Not working");
+                }
+            });
+        }
+
+        function GetCPU() {
+            $.ajax({
+                type: "POST",
+                url: "WebService1.asmx/GetCPU",
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                success: function (msg) {
+                    $('#two').html(msg.d);
+                },
+                error: function (msg) {
+                    console.log("Not working");
+                }
+            });
+        }
+
+        function GetQueueSize() {
+            $.ajax({
+                type: "POST",
+                url: "WebService1.asmx/GetQueueSize",
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                success: function (msg) {
+                    $('#three').html(msg.d);
+                },
+                error: function (msg) {
+                    console.log("Not working");
+                }
+            });
+        }
+
+        function GetTableSize() {
+            $.ajax({
+                type: "POST",
+                url: "WebService1.asmx/GetTableSize",
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                success: function (msg) {
+                    $('#four').html(msg.d);
+                },
+                error: function (msg) {
+                    console.log("Not working");
+                }
+            });
+        }
+
+        function GetTotalUrlCrawled() {
+            $.ajax({
+                type: "POST",
+                url: "WebService1.asmx/GetTotalUrlCrawled",
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                success: function (msg) {
+                    $('#five').html(msg.d);
+                },
+                error: function (msg) {
+                    console.log("Not working");
+                }
+            });
+        }
+
+
+        function Start() {
+            $.ajax({
+                type: "POST",
+                url: "WebService1.asmx/Start",
+                success: function(msg) {
+                    console.log("Success");
+                },
+                error: function(msg) {
+                    console.log("Not working");
+                }
+            });
+        }
+
+        function Stop() {
+            $.ajax({
+                type: "POST",
+                url: "WebService1.asmx/Stop",
+                success: function (msg) {
+                    console.log("Success");
+                },
+                error: function (msg) {
+                    console.log("Not working");
+                }
+            });
+        }
+
+        function Clear() {
+            $.ajax({
+                type: "POST",
+                url: "WebService1.asmx/Clear",
+                success: function (msg) {
+                    console.log("Success");
+                },
+                error: function (msg) {
+                    console.log("Not working");
+                }
+            });
+        }
+
+        
+    </script>
+</body>
+</html>
